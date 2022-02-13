@@ -1,0 +1,20 @@
+{
+  "todos": [
+    {
+      "todoTask": "Vuetify",
+      "id": 2
+    },
+    {
+      "todoTask": "Class Components",
+      "id": 3
+    },
+    {
+      "todoTask": "Vue Router",
+      "id": 7
+    },
+    {
+      "todoTask": "TypeScript",
+      "id": 8
+    }
+  ]
+}
