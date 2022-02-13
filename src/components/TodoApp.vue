@@ -2,31 +2,56 @@
   <v-container>
     <h1>To-do List</h1>
     <v-container v-if="$store.state.editedTodo === ''">
-      <v-row>
-        <v-text-field v-model="newTodo" label="Add a todo task ...." :rules="rules" hide-details="auto" width='50%'></v-text-field>
-        <v-btn @click="addTodo"><Plus /></v-btn>
-      </v-row>
+      <v-card 
+        max-width="750"
+        outlined color="transparent"
+        class="mx-auto"
+        >
+        <v-row>
+          <v-text-field
+              label="Todo Task"
+              placeholder="Add a todo task ...."
+              v-model="newTodo"
+              filled
+              rounded
+              dense
+            ></v-text-field>
+          <v-avatar @click="addTodo"><Plus /></v-avatar>
+        </v-row>
+      </v-card>
     </v-container>
     <v-container v-else>
       <v-row>
-        <v-text-field v-model="$store.state.editedTodo" :rules="rules" hide-details="auto" width='50%'></v-text-field>
-        <v-btn @click="updateEditedTodo"><Check /></v-btn>
+        <v-text-field
+            label="Todo Task"
+            placeholder="Add a todo task ...."
+            v-model="$store.state.editedTodo"
+            filled
+            rounded
+            dense
+          ></v-text-field>
+        <v-avatar @click="updateEditedTodo"><Check /></v-avatar>
       </v-row>
     </v-container>
-    <v-list v-for="(todo, index) in $store.state.todos" :key="index">
-      <v-list-item>
-        <template v-slot:default="{ active }">
-          <v-list-item-action>
-            <v-checkbox :input-value="active"></v-checkbox>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ todo.todoTask }}</v-list-item-title>
-          </v-list-item-content>
-          <v-btn @click="updateTodo(todo.id, index)"><Pencil /></v-btn>
-          <v-btn @click="removeTodo(todo.id)"><Delete /></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
+    <v-container v-if="$store.state.todos.length === 0" class="todos-card">
+      <h1>No tasks for now</h1>
+    </v-container>
+    <v-container v-else>
+      <v-list max-width="750" class="todo-card mx-auto" rounded v-for="(todo, index) in $store.state.todos" :key="index">
+        <v-list-item>
+          <template v-slot:default="{ active }">
+            <v-list-item-action>
+              <v-checkbox :input-value="active"></v-checkbox>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ todo.todoTask }}</v-list-item-title>
+            </v-list-item-content>
+            <v-avatar @click="updateTodo(todo.id, index)"><Pencil /></v-avatar>
+            <v-avatar @click="removeTodo(todo.id)"><Delete /></v-avatar>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-container>
   </v-container>
 </template>
 
@@ -95,3 +120,23 @@
     }
 })
 </script>
+
+<style scoped>
+
+.btn-container {
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 24px;
+  width: 24px;
+}
+
+.todos-card {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 18px;
+  margin: 4px;
+}
+
+.todo-card {
+  margin: 8px;
+}
+
+</style>

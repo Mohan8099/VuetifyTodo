@@ -2,22 +2,22 @@
   <v-app>
     <v-app-bar
       app
-      color="light-green lighten-2"
+      color="green lighten-3"
       dark
     >
       <v-card
         flat
         tile
         width="100%"
-        class="light-green lighten-2 text-center"
+        class="green lighten-3 text-center"
        >
-        <v-card-text class="white--text">
+        <v-card-text class="black--text">
           <strong>Todos App</strong>
         </v-card-text>
       </v-card>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="bg-container">
       <TodoApp />
     </v-main>
     <v-footer app bottom absolute padless>
@@ -66,15 +66,11 @@ export default Vue.extend({
 .bg-container {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   background-image: 
-  linear-gradient(62deg, rgba(212, 241, 238, 0.973) 13%, rgba(255, 122, 151, 0.5) 4%),
-  linear-gradient(44deg, rgb(150, 241, 158) 39%, rgba(242, 140, 143, 0.5) 18%),
-  linear-gradient(118deg, rgb(165, 231, 135) 40%, rgba(247, 155, 187, 0.5) 54%),
-  linear-gradient(58deg, rgb(227, 237, 90) 83%, rgba(249, 156, 142, 0.5) 23%);
+  linear-gradient(62deg, rgba(141, 248, 177, 0.973) 13%, rgba(230, 235, 229, 0.5) 4%),
+  linear-gradient(44deg, rgb(130, 170, 133) 39%, rgba(83, 243, 176, 0.5) 18%),
+  linear-gradient(118deg, rgb(167, 223, 192) 40%, rgba(122, 160, 114, 0.5) 54%),
+  linear-gradient(58deg, rgba(107, 241, 148, 0.781) 83%, rgb(185, 129, 160) 23%);
   background-blend-mode: normal, lighten, multiply, hard-light;
   background-size: cover;
 }

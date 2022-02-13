@@ -1,6 +1,10 @@
 {
   "todos": [
     {
+      "todoTask": "Type Script",
+      "id": 1
+    },
+    {
       "todoTask": "Vuetify",
       "id": 2
     },
@@ -9,12 +13,12 @@
       "id": 3
     },
     {
-      "todoTask": "Vue Router",
-      "id": 7
+      "todoTask": "Vuex & Vue Router",
+      "id": 4
     },
     {
-      "todoTask": "TypeScript",
-      "id": 8
+      "todoTask": "Life Cycle methods",
+      "id": 5
     }
   ]
 }
