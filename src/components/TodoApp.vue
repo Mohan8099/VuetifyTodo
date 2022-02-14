@@ -16,38 +16,81 @@
               rounded
               dense
             ></v-text-field>
-          <v-avatar @click="addTodo"><Plus /></v-avatar>
+          <v-btn 
+            @click="addTodo"
+            class="mx-2"
+            fab
+            dark
+            color="primary">
+            <v-avatar><Plus /></v-avatar>
+          </v-btn>
         </v-row>
       </v-card>
     </v-container>
     <v-container v-else>
-      <v-row>
-        <v-text-field
-            label="Todo Task"
-            placeholder="Add a todo task ...."
-            v-model="$store.state.editedTodo"
-            filled
-            rounded
-            dense
-          ></v-text-field>
-        <v-avatar @click="updateEditedTodo"><Check /></v-avatar>
-      </v-row>
+      <v-card 
+        max-width="750"
+        outlined color="transparent"
+        class="mx-auto"
+        >
+        <v-row>
+          <v-text-field
+              label="Todo Task"
+              placeholder="Add a todo task ...."
+              v-model="$store.state.editedTodo"
+              filled
+              rounded
+              dense
+            ></v-text-field>
+          <v-btn  @click="updateEditedTodo"
+            class="mx-2"
+            fab
+            dark
+            color="purple lighten-2">
+          <v-avatar><Check /></v-avatar>
+          </v-btn>
+        </v-row>
+      </v-card>
     </v-container>
     <v-container v-if="$store.state.todos.length === 0" class="todos-card">
       <h1>No tasks for now</h1>
     </v-container>
     <v-container v-else>
-      <v-list max-width="750" class="todo-card mx-auto" rounded v-for="(todo, index) in $store.state.todos" :key="index">
-        <v-list-item>
-          <template v-slot:default="{ active }">
-            <v-list-item-action>
-              <v-checkbox :input-value="active"></v-checkbox>
+      <v-list max-width="750" 
+        class="todo-card mx-auto" 
+        height="50"
+        v-for="(todo, index) in $store.state.todos" 
+        :key="index"
+        outlined color="transparent">
+        <v-list-item 
+          class="todos"
+          :class="{ 'green accent-1' : todo.done }">
+          <template v-slot:default>
+            <v-list-item-action 
+              :class="{ 'blue-lighten-5' : todo.done }"
+              @click="todoStatus(todo.id, todo.todoTask)"
+              >
+              <v-checkbox :input-value="todo.done"></v-checkbox>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>{{ todo.todoTask }}</v-list-item-title>
             </v-list-item-content>
-            <v-avatar @click="updateTodo(todo.id, index)"><Pencil /></v-avatar>
-            <v-avatar @click="removeTodo(todo.id)"><Delete /></v-avatar>
+            <v-btn @click="updateTodo(todo.id, index)"
+              class="mx-2"
+              fab
+              dark
+              small
+              color="purple lighten-2">
+              <v-avatar><Pencil /></v-avatar>
+            </v-btn>
+            <v-btn @click="removeTodo(todo.id)"
+                class="mx-2"
+                fab
+                small
+                dark
+                color="red">
+              <v-avatar><Delete /></v-avatar>
+            </v-btn>            
           </template>
         </v-list-item>
       </v-list>
@@ -84,11 +127,17 @@
         if (this.newTodo === '' ) {
           alert('Enter a task to add !')
         } else {
-          const response = await axios.post("http://localhost:3333/todos", {todoTask: this.newTodo})
+          const response = await axios.post("http://localhost:3333/todos", {todoTask: this.newTodo, done: false})
           
           store.dispatch("addTodo", response.data)
           this.newTodo = ''
       }
+      },
+      async todoStatus(id: number, todoTask: string) {
+        let currentTask = store.state.todos.filter(tds => tds.id === id)[0]
+        const res = await axios.put(`http://localhost:3333/todos/${currentTask.id}`,{done: !currentTask.done, todoTask: todoTask})
+       
+        store.dispatch('todoStatus', res.data)
       },
       updateTodo(id: number, index: number) {
         if (store.state.editedTodo === '') {
@@ -108,6 +157,7 @@
             }
           }
           const modifiedResponse = await axios.put(`http://localhost:3333/todos/${store.state.modId}`,{todoTask: store.state.editedTodo})
+
           store.dispatch("updatedTodo", modifiedResponse.data)
           store.state.editedTodo = ''
       },
@@ -136,7 +186,12 @@
 }
 
 .todo-card {
-  margin: 8px;
+  margin: 12px;
+}
+
+.todos {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
 }
 
 </style>
